@@ -159,27 +159,6 @@ public class RobotMotion {
         }
     }
 
-/*   private static void printFloor() {
-        for (int j = floor.length - 1; j >= 0; j--) {
-            System.out.print(j + " ");  // Print the row number
-
-            for (int i = 0; i < floor.length; i++) {
-                if (i == 0 && j == 0) {
-                    System.out.print("* ");
-                } else {
-                    System.out.print(floor[i][j] == 1 ? "* " : "  ");
-                }
-            }
-            System.out.println();
-        }
-
-        System.out.print("  ");
-        for (int i = 0; i < floor.length; i++) {
-            System.out.print(i + " ");
-        }
-        System.out.println();
-    }*/
-
     private static void printFloor() {
         int size = floor.length;
 
@@ -218,6 +197,5 @@ public class RobotMotion {
         }
         System.out.println();
     }
-
-
+    
 }
