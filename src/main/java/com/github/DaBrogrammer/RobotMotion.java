@@ -159,18 +159,65 @@ public class RobotMotion {
         }
     }
 
-    private static void printFloor() {
+/*   private static void printFloor() {
         for (int j = floor.length - 1; j >= 0; j--) {
+            System.out.print(j + " ");  // Print the row number
+
             for (int i = 0; i < floor.length; i++) {
-                System.out.print(floor[i][j] == 1 ? "* " : "  ");
+                if (i == 0 && j == 0) {
+                    System.out.print("* ");
+                } else {
+                    System.out.print(floor[i][j] == 1 ? "* " : "  ");
+                }
             }
             System.out.println();
         }
 
+        System.out.print("  ");
         for (int i = 0; i < floor.length; i++) {
-            System.out.print(i % 10);
+            System.out.print(i + " ");
+        }
+        System.out.println();
+    }*/
+
+    private static void printFloor() {
+        int size = floor.length;
+
+        // Print the top border
+        System.out.print("  +");
+        for (int i = 0; i < size; i++) {
+            System.out.print("--");
+        }
+        System.out.println("+");
+
+        // Print the rows
+        for (int j = size - 1; j >= 0; j--) {
+            System.out.print(j + " |"); // Print the row number
+
+            for (int i = 0; i < size; i++) {
+                if (i == 0 && j == 0) {
+                    System.out.print("* "); // Print the robot's position
+                } else {
+                    System.out.print(floor[i][j] == 1 ? "* " : "  ");
+                }
+            }
+            System.out.println("|");
+        }
+
+        // Print the bottom border
+        System.out.print("  +");
+        for (int i = 0; i < size; i++) {
+            System.out.print("--");
+        }
+        System.out.println("+");
+
+        // Print the column numbers
+        System.out.print("   ");
+        for (int i = 0; i < size; i++) {
+            System.out.print(i + " ");
         }
         System.out.println();
     }
+
 
 }
