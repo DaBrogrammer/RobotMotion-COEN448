@@ -118,10 +118,10 @@ public class RobotMotion {
         switch (direction) {
             case NORTH:
                 for (int i = 0; i < spaces; i++) {
-                    if (posY > 0) {
-                        posY--;
+                    if (posY < floor.length - 1) {
+                        posY++;
                         if (penDown) {
-                            floor[posY][posX] = 1;
+                            floor[posX][posY] = 1;
                         }
                     }
                 }
@@ -131,17 +131,17 @@ public class RobotMotion {
                     if (posX < floor.length - 1) {
                         posX++;
                         if (penDown) {
-                            floor[posY][posX] = 1;
+                            floor[posX][posY] = 1;
                         }
                     }
                 }
                 break;
             case SOUTH:
                 for (int i = 0; i < spaces; i++) {
-                    if (posY < floor.length - 1) {
-                        posY++;
+                    if (posY > 0) {
+                        posY--;
                         if (penDown) {
-                            floor[posY][posX] = 1;
+                            floor[posX][posY] = 1;
                         }
                     }
                 }
@@ -151,7 +151,7 @@ public class RobotMotion {
                     if (posX > 0) {
                         posX--;
                         if (penDown) {
-                            floor[posY][posX] = 1;
+                            floor[posX][posY] = 1;
                         }
                     }
                 }
@@ -160,9 +160,9 @@ public class RobotMotion {
     }
 
     private static void printFloor() {
-        for (int i = floor.length - 1; i >= 0; i--) {
-            for (int j = 0; j < floor.length; j++) {
-                System.out.print(floor[j][i] == 1 ? "*" : " ");
+        for (int j = floor.length - 1; j >= 0; j--) {
+            for (int i = 0; i < floor.length; i++) {
+                System.out.print(floor[i][j] == 1 ? "* " : "  ");
             }
             System.out.println();
         }
@@ -172,4 +172,5 @@ public class RobotMotion {
         }
         System.out.println();
     }
+
 }
