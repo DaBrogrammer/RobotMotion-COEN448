@@ -25,6 +25,10 @@ public class RobotMotion {
     public static boolean isPenDown() {
         return penDown;
     }
+    
+    public static void setPen(boolean setting) {
+    	penDown = setting;
+    }
 
     public static Direction getDirection() {
         return direction;
@@ -52,8 +56,8 @@ public class RobotMotion {
                         initializeSystem(n);
                     }
                     case 'c' -> printCurrentPosition();
-                    case 'd' -> penDown = true;
-                    case 'u' -> penDown = false;
+                    case 'd' -> setPen(true);
+                    case 'u' -> setPen(false);
                     case 'r' -> turnRight();
                     case 'l' -> turnLeft();
                     case 'm' -> {
