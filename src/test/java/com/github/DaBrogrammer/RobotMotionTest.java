@@ -63,21 +63,37 @@ public class RobotMotionTest {
         RobotMotion.turnLeft();
         Assertions.assertEquals(RobotMotion.Direction.NORTH, RobotMotion.getDirection());
     }
+    
+    @Test
+    public void testSetPenDown() {
+    	RobotMotion.initializeSystem(3);
+    	RobotMotion.setPen(true);
+    	Assertions.assertTrue(RobotMotion.isPenDown());
+    }
+    
+    @Test
+    public void testSetPenUp() {
+    	RobotMotion.initializeSystem(3);
+    	Assertions.assertFalse(RobotMotion.isPenDown());
+    	RobotMotion.setPen(false);
+    	Assertions.assertFalse(RobotMotion.isPenDown());
+    }
 
     @Test
     public void testMove() {
         RobotMotion.initializeSystem(3);
-
+        
+        RobotMotion.setPen(true); // must set pen down in order to draw
         RobotMotion.move(2);
         Assertions.assertEquals(0, RobotMotion.getPosX());
         Assertions.assertEquals(2, RobotMotion.getPosY());
-        Assertions.assertFalse(RobotMotion.isPenDown());
+        //Assertions.assertFalse(RobotMotion.isPenDown());
 
         RobotMotion.turnRight();
         RobotMotion.move(1);
         Assertions.assertEquals(1, RobotMotion.getPosX());
         Assertions.assertEquals(2, RobotMotion.getPosY());
-        Assertions.assertFalse(RobotMotion.isPenDown());
+        //Assertions.assertFalse(RobotMotion.isPenDown());
     }
 
     @Test
@@ -88,16 +104,17 @@ public class RobotMotionTest {
         Assertions.assertEquals("Position: 0, 0 - Pen: up - Facing: north\n", outputStream.toString());
         
         outputStream.reset();
+        RobotMotion.setPen(true); // must set pen down in order to draw
         RobotMotion.turnRight();
         RobotMotion.move(2);
         RobotMotion.printCurrentPosition();
-        Assertions.assertEquals("Position: 2, 0 - Pen: up - Facing: east\n", outputStream.toString());
+        Assertions.assertEquals("Position: 2, 0 - Pen: down - Facing: east\n", outputStream.toString());
         
         outputStream.reset();
         RobotMotion.turnLeft();
         RobotMotion.move(1);
         RobotMotion.printCurrentPosition();
-        Assertions.assertEquals("Position: 2, 1 - Pen: up - Facing: north\n", outputStream.toString());
+        Assertions.assertEquals("Position: 2, 1 - Pen: down - Facing: north\n", outputStream.toString());
     }
 
     @Test
