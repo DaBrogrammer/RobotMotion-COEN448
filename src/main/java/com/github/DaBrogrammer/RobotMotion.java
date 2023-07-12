@@ -10,7 +10,27 @@ public class RobotMotion {
     private static boolean penDown;
     private static Direction direction;
 
-    private enum Direction {
+    public static Object[] getFloor() {
+        return floor;
+    }
+
+    public static int getPosX() {
+        return posX;
+    }
+
+    public static int getPosY() {
+        return posY;
+    }
+
+    public static boolean isPenDown() {
+        return penDown;
+    }
+
+    public static Direction getDirection() {
+        return direction;
+    }
+
+    enum Direction {
         NORTH, EAST, SOUTH, WEST
     }
 
@@ -64,7 +84,7 @@ public class RobotMotion {
         }
     }
 
-    private static void initializeSystem(int n) {
+    static void initializeSystem(int n) {
         floor = new int[n][n];
         for (int[] row : floor) {
             Arrays.fill(row, 0);
@@ -75,12 +95,12 @@ public class RobotMotion {
         direction = Direction.NORTH;
     }
 
-    private static void printCurrentPosition() {
+    static void printCurrentPosition() {
         System.out.printf("Position: %d, %d - Pen: %s - Facing: %s\n",
                 posX, posY, penDown ? "down" : "up", direction.toString().toLowerCase());
     }
 
-    private static void turnRight() {
+    static void turnRight() {
         switch (direction) {
             case NORTH:
                 direction = Direction.EAST;
@@ -97,7 +117,7 @@ public class RobotMotion {
         }
     }
 
-    private static void turnLeft() {
+    static void turnLeft() {
         switch (direction) {
             case NORTH:
                 direction = Direction.WEST;
@@ -114,7 +134,12 @@ public class RobotMotion {
         }
     }
 
-    private static void move(int spaces) {
+    static void move(int spaces) {
+
+        if (penDown) {
+            floor[posX][posY] = 1; // Mark the initial position with "*" if pen is down
+        }
+
         switch (direction) {
             case NORTH:
                 for (int i = 0; i < spaces; i++) {
@@ -159,7 +184,7 @@ public class RobotMotion {
         }
     }
 
-    private static void printFloor() {
+    static void printFloor() {
         int size = floor.length;
 
         // Print the top border
@@ -174,8 +199,8 @@ public class RobotMotion {
             System.out.print(j + " |"); // Print the row number
 
             for (int i = 0; i < size; i++) {
-                if (i == 0 && j == 0) {
-                    System.out.print("* "); // Print the robot's position
+                if (i == posX && j == posY) {
+                    System.out.print(penDown ? "* " : "  "); // Check pen state before printing
                 } else {
                     System.out.print(floor[i][j] == 1 ? "* " : "  ");
                 }
@@ -197,5 +222,5 @@ public class RobotMotion {
         }
         System.out.println();
     }
-    
+
 }
