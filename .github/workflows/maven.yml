@@ -25,5 +25,6 @@ jobs:
 
       # Run RobotMotionTest
       - name: Run RobotMotionTest
-        run: mvn -B clean test -Dtest=com.github.DaBrogrammer.RobotMotionTest
+        run: mvn -B clean test -Dtest=com.github.DaBrogrammer.RobotMotionTest -DfailIfNoTests=false
+
 
