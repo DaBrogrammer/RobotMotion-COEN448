@@ -20,10 +20,6 @@ jobs:
           distribution: 'temurin'
           cache: maven
       - name: Build with Maven
-        run: mvn -B package --file pom.xml
-
-      # Run RobotMotionTest
-      - name: Run RobotMotionTest
-        run: mvn -B clean test -Dtest=com.github.DaBrogrammer.RobotMotionTest -DfailIfNoTests=false
-
-
+        run: |
+          mvn -B package --file pom.xml
+          mvn surefire:test -Dsurefire.includes=com/github/DaBrogrammer/RobotMotionTest.java
