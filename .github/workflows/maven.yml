@@ -9,7 +9,7 @@ on:
 jobs:
   build:
 
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v3
@@ -20,8 +20,8 @@ jobs:
           distribution: 'temurin'
           cache: maven
       - name: Build with Maven
-        run: mvnw.cmd -B package --file pom.xml
+        run: mvn -B package --file pom.xml
 
       # Run RobotMotionTest
       - name: Run RobotMotionTest
-        run: mvnw.cmd -B test -Dtest=com.github.DaBrogrammer.RobotMotionTest
+        run: mvn -B test -Dtest=com.github.DaBrogrammer.RobotMotionTest
