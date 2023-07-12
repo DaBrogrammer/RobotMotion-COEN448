@@ -1,6 +1,5 @@
 name: Testing with Maven
 
-
 on:
   push:
     branches: [ "main" ]
