@@ -47,38 +47,22 @@ public class RobotMotion {
                 String commandArgs = command.length() > 1 ? command.substring(2) : "";
 
                 switch (commandChar) {
-                    case 'i':
+                    case 'i' -> {
                         int n = Integer.parseInt(commandArgs);
                         initializeSystem(n);
-                        break;
-                    case 'c':
-                        printCurrentPosition();
-                        break;
-                    case 'd':
-                        penDown = true;
-                        break;
-                    case 'u':
-                        penDown = false;
-                        break;
-                    case 'r':
-                        turnRight();
-                        break;
-                    case 'l':
-                        turnLeft();
-                        break;
-                    case 'm':
+                    }
+                    case 'c' -> printCurrentPosition();
+                    case 'd' -> penDown = true;
+                    case 'u' -> penDown = false;
+                    case 'r' -> turnRight();
+                    case 'l' -> turnLeft();
+                    case 'm' -> {
                         int spaces = Integer.parseInt(commandArgs);
                         move(spaces);
-                        break;
-                    case 'p':
-                        printFloor();
-                        break;
-                    case 'q':
-                        running = false;
-                        break;
-                    default:
-                        System.out.println("Invalid command!");
-                        break;
+                    }
+                    case 'p' -> printFloor();
+                    case 'q' -> running = false;
+                    default -> System.out.println("Invalid command!");
                 }
             }
         }
@@ -102,35 +86,19 @@ public class RobotMotion {
 
     static void turnRight() {
         switch (direction) {
-            case NORTH:
-                direction = Direction.EAST;
-                break;
-            case EAST:
-                direction = Direction.SOUTH;
-                break;
-            case SOUTH:
-                direction = Direction.WEST;
-                break;
-            case WEST:
-                direction = Direction.NORTH;
-                break;
+            case NORTH -> direction = Direction.EAST;
+            case EAST -> direction = Direction.SOUTH;
+            case SOUTH -> direction = Direction.WEST;
+            case WEST -> direction = Direction.NORTH;
         }
     }
 
     static void turnLeft() {
         switch (direction) {
-            case NORTH:
-                direction = Direction.WEST;
-                break;
-            case EAST:
-                direction = Direction.NORTH;
-                break;
-            case SOUTH:
-                direction = Direction.EAST;
-                break;
-            case WEST:
-                direction = Direction.SOUTH;
-                break;
+            case NORTH -> direction = Direction.WEST;
+            case EAST -> direction = Direction.NORTH;
+            case SOUTH -> direction = Direction.EAST;
+            case WEST -> direction = Direction.SOUTH;
         }
     }
 
@@ -141,7 +109,7 @@ public class RobotMotion {
         }
 
         switch (direction) {
-            case NORTH:
+            case NORTH -> {
                 for (int i = 0; i < spaces; i++) {
                     if (posY < floor.length - 1) {
                         posY++;
@@ -150,8 +118,8 @@ public class RobotMotion {
                         }
                     }
                 }
-                break;
-            case EAST:
+            }
+            case EAST -> {
                 for (int i = 0; i < spaces; i++) {
                     if (posX < floor.length - 1) {
                         posX++;
@@ -160,8 +128,8 @@ public class RobotMotion {
                         }
                     }
                 }
-                break;
-            case SOUTH:
+            }
+            case SOUTH -> {
                 for (int i = 0; i < spaces; i++) {
                     if (posY > 0) {
                         posY--;
@@ -170,8 +138,8 @@ public class RobotMotion {
                         }
                     }
                 }
-                break;
-            case WEST:
+            }
+            case WEST -> {
                 for (int i = 0; i < spaces; i++) {
                     if (posX > 0) {
                         posX--;
@@ -180,7 +148,7 @@ public class RobotMotion {
                         }
                     }
                 }
-                break;
+            }
         }
     }
 
