@@ -136,6 +136,25 @@ public class RobotMotionTest {
                 "   0 1 2 " + System.lineSeparator();
 
         Assertions.assertEquals(expectedOutput, outputStream.toString());
+        
+        outputStream.reset();
+
+        RobotMotion.initializeSystem(3);
+        RobotMotion.setPen(true);
+        RobotMotion.move(2);
+        RobotMotion.turnRight();
+        RobotMotion.move(1);
+        RobotMotion.printFloor();
+
+        String expectedOutput2 = "  +------+" + System.lineSeparator() +
+                "2 |* *   |" + System.lineSeparator() +
+                "1 |*     |" + System.lineSeparator() +
+                "0 |*     |" + System.lineSeparator() +
+                "  +------+" + System.lineSeparator() +
+                "   0 1 2 " + System.lineSeparator();
+        
+        Assertions.assertEquals(expectedOutput2, outputStream.toString());
+
     }
 
 }
