@@ -42,14 +42,21 @@ public class RobotMotion {
         Scanner scanner = new Scanner(System.in);
         boolean running = true;
 
+        // main loop
         while (running) {
             System.out.print("Enter command: ");
             String command = scanner.nextLine();
+            // remove any spaces in the command
+            command = command.replaceAll("\\s", "");
 
+            // check if the command is not empty
             if (command.length() > 0) {
+                // get the first character of the command
                 char commandChar = Character.toLowerCase(command.charAt(0));
-                String commandArgs = command.length() > 1 ? command.substring(2) : "";
+                // get the value of the command arguments
+                String commandArgs = command.length() > 1 ? command.substring(1) : "";
 
+                // check the command character and call the appropriate method
                 switch (commandChar) {
                     case 'i' -> {
                         int n = Integer.parseInt(commandArgs);
@@ -72,6 +79,7 @@ public class RobotMotion {
         }
     }
 
+    // starting from the bottom left corner and set the pen up
     static void initializeSystem(int n) {
         floor = new int[n][n];
         for (int[] row : floor) {
@@ -83,11 +91,14 @@ public class RobotMotion {
         direction = Direction.NORTH;
     }
 
+
+    // print the current position of the robot, the pen state and the direction
     static void printCurrentPosition() {
         System.out.printf("Position: %d, %d - Pen: %s - Facing: %s\n",
                 posX, posY, penDown ? "down" : "up", direction.toString().toLowerCase());
     }
 
+    // direction of the robot is changed based on the current direction
     static void turnRight() {
         switch (direction) {
             case NORTH -> direction = Direction.EAST;
@@ -107,16 +118,21 @@ public class RobotMotion {
     }
 
     static void move(int spaces) {
-
+        // mark the initial position with "*" if pen is down
         if (penDown) {
             floor[posX][posY] = 1; // Mark the initial position with "*" if pen is down
         }
 
+        // move the robot based on the direction
         switch (direction) {
             case NORTH -> {
+                // check if the robot is not going out of bounds
                 for (int i = 0; i < spaces; i++) {
+                    // move the robot one space up
                     if (posY < floor.length - 1) {
+                        // increment the y position
                         posY++;
+                        // mark the position with "*" if pen is down
                         if (penDown) {
                             floor[posX][posY] = 1;
                         }
@@ -156,6 +172,7 @@ public class RobotMotion {
         }
     }
 
+    // print the floor with the robot's path
     static void printFloor() {
         int size = floor.length;
 
@@ -170,6 +187,7 @@ public class RobotMotion {
         for (int j = size - 1; j >= 0; j--) {
             System.out.print(j + " |"); // Print the row number
 
+            // Print the columns
             for (int i = 0; i < size; i++) {
                 if (i == posX && j == posY) {
                     System.out.print(penDown ? "* " : "  "); // Check pen state before printing

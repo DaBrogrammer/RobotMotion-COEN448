@@ -102,19 +102,21 @@ public class RobotMotionTest {
 
         RobotMotion.printCurrentPosition();
         Assertions.assertEquals("Position: 0, 0 - Pen: up - Facing: north\n", outputStream.toString());
-        
+
         outputStream.reset();
-        RobotMotion.setPen(true); // must set pen down in order to draw
+        RobotMotion.setPen(false); // pen up, no drawing
         RobotMotion.turnRight();
         RobotMotion.move(2);
         RobotMotion.printCurrentPosition();
-        Assertions.assertEquals("Position: 2, 0 - Pen: down - Facing: east\n", outputStream.toString());
-        
+        Assertions.assertEquals("Position: 2, 0 - Pen: up - Facing: east\n", outputStream.toString());
+
         outputStream.reset();
-        RobotMotion.turnLeft();
+        RobotMotion.initializeSystem(3);
+        RobotMotion.setPen(true); // must set pen down in order to draw
+        RobotMotion.turnRight();
         RobotMotion.move(1);
         RobotMotion.printCurrentPosition();
-        Assertions.assertEquals("Position: 2, 1 - Pen: down - Facing: north\n", outputStream.toString());
+        Assertions.assertEquals("Position: 1, 0 - Pen: down - Facing: east\n", outputStream.toString());
     }
 
     @Test
