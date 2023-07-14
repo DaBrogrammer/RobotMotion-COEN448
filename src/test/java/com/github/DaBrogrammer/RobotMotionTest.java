@@ -19,10 +19,12 @@ public class RobotMotionTest {
     // REQUIREMENT R1
     @Test
     public void testInitializeSystem_Floor() {
-        RobotMotion.initializeSystem(3);
+        // test case 1: smaller floor
+    	RobotMotion.initializeSystem(3);
         int[][] expectedFloor = {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}};
         Assertions.assertArrayEquals(expectedFloor, RobotMotion.getFloor());
         
+        // test case 2: larger floor
         RobotMotion.initializeSystem(10);
         int[][] expectedFloorBigger = {{0,0,0,0,0,0,0,0,0,0}, {0,0,0,0,0,0,0,0,0,0}, {0,0,0,0,0,0,0,0,0,0},
         		{0,0,0,0,0,0,0,0,0,0}, {0,0,0,0,0,0,0,0,0,0}, {0,0,0,0,0,0,0,0,0,0}, {0,0,0,0,0,0,0,0,0,0},
@@ -35,6 +37,7 @@ public class RobotMotionTest {
     // REQUIREMENT R2
     @Test
     public void testInitializeSystem_Robot() {
+    	// assert that the robot is in position [0, 0], facing north, and with pen up after system initialization
     	RobotMotion.initializeSystem(3);
         Assertions.assertEquals(0, RobotMotion.getPosX());
         Assertions.assertEquals(0, RobotMotion.getPosY());
@@ -48,6 +51,7 @@ public class RobotMotionTest {
     // REQUIREMENT R3
     @Test
     public void testSetPenUp() {
+    	// assert that robot has the pen up after initialization + when the setPen(boolean) function is called with "false" as input
     	RobotMotion.initializeSystem(3);
     	Assertions.assertFalse(RobotMotion.isPenDown());
     	RobotMotion.setPen(false);
@@ -58,16 +62,19 @@ public class RobotMotionTest {
     // REQUIREMENT R4
     @Test
     public void testNoDrawing_PenUP() {
-        RobotMotion.initializeSystem(3);
+        // test that the robot will not draw on the floor as long as the pen is up
+    	RobotMotion.initializeSystem(3);
 
-        RobotMotion.setPen(false); //pen is up, NO DRAWING
+        RobotMotion.setPen(false); // pen is up, NO DRAWING
         RobotMotion.move(2);
         RobotMotion.turnRight();
         RobotMotion.move(1);
 
         outputStream.reset();
         RobotMotion.printFloor();
-
+        
+        // robot is moving across the floor, however the pen is set to up (false), therefore we should not expect
+        // any drawing to be done on the floor, therefore the floor must appear blank
         String expectedOutput = "  +------+" + System.lineSeparator() +
                 "2 |      |" + System.lineSeparator() +
                 "1 |      |" + System.lineSeparator() +
@@ -83,8 +90,9 @@ public class RobotMotionTest {
     @Test
     public void testSetPenDown() {
     	RobotMotion.initializeSystem(3);
-    	RobotMotion.setPen(true);
-    	Assertions.assertTrue(RobotMotion.isPenDown());
+    	Assertions.assertFalse(RobotMotion.isPenDown()); // pen is up by default after initialization
+    	RobotMotion.setPen(true); // set the pen down (true) using the function setPen(boolean)
+    	Assertions.assertTrue(RobotMotion.isPenDown()); // assert that the pen is now down after the function is called with "true" as input
     }
 
     
@@ -93,15 +101,19 @@ public class RobotMotionTest {
     public void testTurnRight() {
         RobotMotion.initializeSystem(3);
 
+        // from NORTH, turning right makes the robot go EAST
         RobotMotion.turnRight();
         Assertions.assertEquals(RobotMotion.Direction.EAST, RobotMotion.getDirection());
 
+        // from EAST, turning right makes the robot go SOUTH
         RobotMotion.turnRight();
         Assertions.assertEquals(RobotMotion.Direction.SOUTH, RobotMotion.getDirection());
 
+        // from SOUTH, turning right makes the robot go WEST
         RobotMotion.turnRight();
         Assertions.assertEquals(RobotMotion.Direction.WEST, RobotMotion.getDirection());
 
+        // from WEST, turning right makes the robot go NORTH
         RobotMotion.turnRight();
         Assertions.assertEquals(RobotMotion.Direction.NORTH, RobotMotion.getDirection());
     }
@@ -112,15 +124,19 @@ public class RobotMotionTest {
     public void testTurnLeft() {
         RobotMotion.initializeSystem(3);
 
+        // from NORTH, turning left makes the robot go WEST
         RobotMotion.turnLeft();
         Assertions.assertEquals(RobotMotion.Direction.WEST, RobotMotion.getDirection());
 
+        // from WEST, turning left makes the robot go SOUTH
         RobotMotion.turnLeft();
         Assertions.assertEquals(RobotMotion.Direction.SOUTH, RobotMotion.getDirection());
 
+        // from SOUTH, turning left makes the robot go EAST
         RobotMotion.turnLeft();
         Assertions.assertEquals(RobotMotion.Direction.EAST, RobotMotion.getDirection());
 
+        // from EAST, turning left makes the robot go NORTH
         RobotMotion.turnLeft();
         Assertions.assertEquals(RobotMotion.Direction.NORTH, RobotMotion.getDirection());
     }
@@ -129,7 +145,8 @@ public class RobotMotionTest {
     // REQUIREMENT R8
     @Test
     public void testMove() {
-        RobotMotion.initializeSystem(3);
+        // test case 1: smaller system, smaller movements
+    	RobotMotion.initializeSystem(3);
         RobotMotion.setPen(true); // must set pen down in order to draw, not mandatory in order to move
         RobotMotion.move(2);
         Assertions.assertEquals(0, RobotMotion.getPosX());
@@ -139,6 +156,7 @@ public class RobotMotionTest {
         Assertions.assertEquals(1, RobotMotion.getPosX());
         Assertions.assertEquals(2, RobotMotion.getPosY());
         
+        // test case 2: larger system, larger movements
         RobotMotion.initializeSystem(10);
         RobotMotion.setPen(false);
         RobotMotion.move(6);
@@ -182,24 +200,37 @@ public class RobotMotionTest {
     @Test
     public void testPrintCurrentPosition() {
         RobotMotion.initializeSystem(3);
-
+        // test case 1: print current position after initialization
         RobotMotion.printCurrentPosition();
         Assertions.assertEquals("Position: 0, 0 - Pen: up - Facing: north\n", outputStream.toString());
 
+        // test case 2: same system, movement is performed, but pen is up
         outputStream.reset();
-        RobotMotion.setPen(false); // pen up, no drawing
+        RobotMotion.setPen(false);
         RobotMotion.turnRight();
         RobotMotion.move(2);
         RobotMotion.printCurrentPosition();
         Assertions.assertEquals("Position: 2, 0 - Pen: up - Facing: east\n", outputStream.toString());
 
+        // test case 3: new system, movement is performed, with pen down
         outputStream.reset();
         RobotMotion.initializeSystem(3);
-        RobotMotion.setPen(true); // must set pen down in order to draw
+        RobotMotion.setPen(true);
         RobotMotion.turnRight();
         RobotMotion.move(1);
         RobotMotion.printCurrentPosition();
         Assertions.assertEquals("Position: 1, 0 - Pen: down - Facing: east\n", outputStream.toString());
+        
+        // test case 4: larger system, larger movements performed, with pen down
+        outputStream.reset();
+        RobotMotion.initializeSystem(10);
+        RobotMotion.setPen(true);
+        RobotMotion.move(4);
+        RobotMotion.turnRight();
+        RobotMotion.move(7);
+        RobotMotion.turnRight();
+        RobotMotion.printCurrentPosition();
+        Assertions.assertEquals("Position: 7, 4 - Pen: down - Facing: south\n", outputStream.toString());
     }
 
 
