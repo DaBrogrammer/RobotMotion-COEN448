@@ -38,7 +38,15 @@ public class RobotMotion {
         NORTH, EAST, SOUTH, WEST
     }
 
+//    public static void main(String[] args) {
+//        Scanner scanner = new Scanner(System.in);
+//        boolean running = true;
+
     public static void main(String[] args) {
+        RobotMotion.run();
+    }
+
+    public static void run() {
         Scanner scanner = new Scanner(System.in);
         boolean running = true;
 
@@ -72,6 +80,7 @@ public class RobotMotion {
                         move(spaces);
                     }
                     case 'p' -> printFloor();
+                    //case 'q' -> running = false;
                     case 'q' -> running = false;
                     default -> System.out.println("Invalid command!");
                 }
