@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
@@ -233,5 +234,29 @@ public class RobotMotionTest {
         Assertions.assertEquals("Position: 7, 4 - Pen: down - Facing: south\n", outputStream.toString());
     }
 
+    // REQUIREMENT R11
+    @Test
+    public void testEndProgramCommand() {
+        // Redirect System.in to provide the "q" command
+        ByteArrayInputStream inputStream = new ByteArrayInputStream("q\n".getBytes());
+        System.setIn(inputStream);
+
+        // Execute the run method
+        RobotMotion.run();
+
+        // The program should terminate after the "q" command
+        Assertions.assertTrue(true);
+    }
+
+    // REQUIREMENT R12, test invalid command
+    @Test
+    public void  testInvalidCommand() {
+
+        // test case 1: invalid command
+        ByteArrayInputStream inputStream = new ByteArrayInputStream("a\nq\n".getBytes());
+        System.setIn(inputStream);
+        RobotMotion.run();
+        Assertions.assertEquals("Enter command: Invalid command!" +System.lineSeparator()+ "Enter command: ", outputStream.toString());
+    }
 
 }
