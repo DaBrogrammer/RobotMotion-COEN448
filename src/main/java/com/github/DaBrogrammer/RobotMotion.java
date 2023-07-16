@@ -65,11 +65,6 @@ public class RobotMotion {
                 // get the value of the command arguments
                 String commandArgs = command.length() > 1 ? command.substring(1) : "";
 
-                if (!initialized && commandChar != 'i') {
-                    System.out.println("Please initialize the system first using the 'i' command.");
-                    continue;
-                }
-
                 // check the command character and call the appropriate method
                 switch (commandChar) {
                     case 'i' -> {
@@ -83,7 +78,7 @@ public class RobotMotion {
                         }
                     }
                     case 'c' -> {
-                        if(command.length() == 1){
+                        if(initialized && command.length() == 1){
                             printCurrentPosition();
                         }
                         else{
@@ -91,7 +86,7 @@ public class RobotMotion {
                         }
                     }
                     case 'd' -> {
-                        if(command.length() == 1){
+                        if(initialized && command.length() == 1){
                             setPen(true);
                         }
                         else{
@@ -99,7 +94,7 @@ public class RobotMotion {
                         }
                     }
                     case 'u' -> {
-                        if(command.length() == 1){
+                        if(initialized && command.length() == 1){
                             setPen(false);
                         }
                         else{
@@ -107,7 +102,7 @@ public class RobotMotion {
                         }
                     }
                     case 'r' -> {
-                        if(command.length() == 1){
+                        if(initialized && command.length() == 1){
                             turnRight();
                         }
                         else{
@@ -115,7 +110,7 @@ public class RobotMotion {
                         }
                     }
                     case 'l' -> {
-                        if(command.length() == 1){
+                        if(initialized && command.length() == 1){
                             turnLeft();
                         }
                         else{
@@ -124,9 +119,12 @@ public class RobotMotion {
                     }
                     case 'm' -> {
                         try{
-                            int spaces = parsePositiveInteger(commandArgs);
-                            if(spaces != -1){
+                            if(initialized){
+                                int spaces = Integer.parseInt(commandArgs);
                                 move(spaces);
+                            }
+                            else{
+                                System.out.println("Invalid command!");
                             }
                         }
                         catch(NumberFormatException e){
@@ -134,7 +132,7 @@ public class RobotMotion {
                         }
                     }
                     case 'p' -> {
-                        if(command.length() == 1) {
+                        if(initialized && command.length() == 1) {
                             printFloor();
                         }
                         else{
@@ -288,19 +286,5 @@ public class RobotMotion {
             System.out.print(i + " ");
         }
         System.out.println();
-    }
-    // Parse a positive integer from a string, returning -1 if invalid
-    static int parsePositiveInteger(String str) {
-        try {
-            int value = Integer.parseInt(str);
-            if (value > 0) {
-                return value;
-            } else {
-                System.out.println("Invalid arguments! Please enter a positive integer.");
-            }
-        } catch (NumberFormatException e) {
-            System.out.println("Invalid arguments! Please enter a valid integer.");
-        }
-        return -1;
     }
 }

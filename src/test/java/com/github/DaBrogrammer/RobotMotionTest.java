@@ -251,12 +251,10 @@ public class RobotMotionTest {
     // REQUIREMENT R12, test invalid command
     @Test
     public void  testInvalidCommand() {
-
         // test case 1: invalid command
         ByteArrayInputStream inputStream = new ByteArrayInputStream("a\nq\n".getBytes());
         System.setIn(inputStream);
         RobotMotion.run();
         Assertions.assertEquals("Enter command: Invalid command!" +System.lineSeparator()+ "Enter command: ", outputStream.toString());
     }
-
 }
