@@ -234,6 +234,7 @@ public class RobotMotionTest {
         Assertions.assertEquals("Position: 7, 4 - Pen: down - Facing: south\n", outputStream.toString());
     }
 
+    
     // REQUIREMENT R11
     @Test
     public void testEndProgramCommand() {
@@ -248,7 +249,8 @@ public class RobotMotionTest {
         Assertions.assertTrue(true);
     }
 
-    // REQUIREMENT R12, test invalid command
+    
+    // REQUIREMENT R12
     @Test
     public void  testInvalidCommand() {
         // test case 1: invalid command
