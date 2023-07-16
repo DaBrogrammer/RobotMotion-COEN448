@@ -39,9 +39,6 @@ public class RobotMotion {
         NORTH, EAST, SOUTH, WEST
     }
 
-//    public static void main(String[] args) {
-//        Scanner scanner = new Scanner(System.in);
-//        boolean running = true;
 
     public static void main(String[] args) {
         RobotMotion.run();
@@ -247,6 +244,7 @@ public class RobotMotion {
         }
     }
 
+    
     // print the floor with the robot's path
     static void printFloor() {
         int size = floor.length;
