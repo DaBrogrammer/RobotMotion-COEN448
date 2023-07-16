@@ -9,6 +9,7 @@ public class RobotMotion {
     private static int posY;
     private static boolean penDown;
     private static Direction direction;
+    private static boolean initialized;
 
     public static Object[] getFloor() {
         return floor;
@@ -67,21 +68,86 @@ public class RobotMotion {
                 // check the command character and call the appropriate method
                 switch (commandChar) {
                     case 'i' -> {
-                        int n = Integer.parseInt(commandArgs);
-                        initializeSystem(n);
+                        try{
+                            int n = Integer.parseInt(commandArgs);
+                            initializeSystem(n);
+                            initialized = true;
+                        }
+                        catch(NumberFormatException e){
+                            System.out.println("Invalid arguments for 'i' command! Please enter an integer with the command.");
+                        }
                     }
-                    case 'c' -> printCurrentPosition();
-                    case 'd' -> setPen(true);
-                    case 'u' -> setPen(false);
-                    case 'r' -> turnRight();
-                    case 'l' -> turnLeft();
+                    case 'c' -> {
+                        if(initialized && command.length() == 1){
+                            printCurrentPosition();
+                        }
+                        else{
+                            System.out.println("Invalid command!");
+                        }
+                    }
+                    case 'd' -> {
+                        if(initialized && command.length() == 1){
+                            setPen(true);
+                        }
+                        else{
+                            System.out.println("Invalid command!");
+                        }
+                    }
+                    case 'u' -> {
+                        if(initialized && command.length() == 1){
+                            setPen(false);
+                        }
+                        else{
+                            System.out.println("Invalid command!");
+                        }
+                    }
+                    case 'r' -> {
+                        if(initialized && command.length() == 1){
+                            turnRight();
+                        }
+                        else{
+                            System.out.println("Invalid command!");
+                        }
+                    }
+                    case 'l' -> {
+                        if(initialized && command.length() == 1){
+                            turnLeft();
+                        }
+                        else{
+                            System.out.println("Invalid command!");
+                        }
+                    }
                     case 'm' -> {
-                        int spaces = Integer.parseInt(commandArgs);
-                        move(spaces);
+                        try{
+                            if(initialized){
+                                int spaces = Integer.parseInt(commandArgs);
+                                move(spaces);
+                            }
+                            else{
+                                System.out.println("Invalid command!");
+                            }
+                        }
+                        catch(NumberFormatException e){
+                            System.out.println("Invalid arguments for 'm' command! Please enter an integer with the command.");
+                        }
                     }
-                    case 'p' -> printFloor();
+                    case 'p' -> {
+                        if(initialized && command.length() == 1) {
+                            printFloor();
+                        }
+                        else{
+                            System.out.println("Invalid command!");
+                        }
+                    }
                     //case 'q' -> running = false;
-                    case 'q' -> running = false;
+                    case 'q' -> {
+                        if(command.length() == 1) {
+                            running = false;
+                        }
+                        else{
+                            System.out.println("Invalid command!");
+                        }
+                    }
                     default -> System.out.println("Invalid command!");
                 }
             }
@@ -221,5 +287,4 @@ public class RobotMotion {
         }
         System.out.println();
     }
-
 }
