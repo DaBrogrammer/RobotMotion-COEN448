@@ -172,6 +172,23 @@ public class RobotMotionTest {
         RobotMotion.move(1);
         Assertions.assertEquals(2, RobotMotion.getPosX());
         Assertions.assertEquals(2, RobotMotion.getPosY());
+        
+        // test case 3: to improve coverage
+        RobotMotion.initializeSystem(5);
+        RobotMotion.setPen(true);
+        RobotMotion.turnRight();
+        RobotMotion.move(3);
+        RobotMotion.turnLeft();
+        RobotMotion.move(2);
+        RobotMotion.turnLeft();
+        RobotMotion.move(1);
+        Assertions.assertEquals(2, RobotMotion.getPosX());
+        Assertions.assertEquals(2, RobotMotion.getPosY());
+        
+        RobotMotion.turnLeft();
+        RobotMotion.move(1);
+        Assertions.assertEquals(2, RobotMotion.getPosX());
+        Assertions.assertEquals(1, RobotMotion.getPosY());
     }
     
     
