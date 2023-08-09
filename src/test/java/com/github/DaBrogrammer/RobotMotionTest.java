@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.awt.*;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -276,4 +277,59 @@ public class RobotMotionTest {
         RobotMotion.run();
         Assertions.assertEquals("Enter command: Invalid command!" +System.lineSeparator()+ "Enter command: ", outputStream.toString());
     }
+
+
+    // TEST CASES ADDED BASED ON QA REMARKS
+    @Test
+    public void testInitializeNegative() {
+        RobotMotion.initializeSystem(-3);
+        Assertions.assertEquals("Invalid floor size. Please enter an integer larger than 0", outputStream.toString().trim());
+
+        outputStream.reset();
+        RobotMotion.initializeSystem(0);
+        Assertions.assertEquals("Invalid floor size. Please enter an integer larger than 0", outputStream.toString().trim());
+    }
+
+    @Test
+    public void testMoveNegative() {
+        RobotMotion.initializeSystem(5);
+        RobotMotion.move(-3);
+        Assertions.assertEquals("Invalid. Must move by a positive integer.", outputStream.toString().trim());
+    }
+
+    @Test
+    public void testMoveOutOfBounds() {
+        RobotMotion.initializeSystem(3);
+        RobotMotion.setPen(true);
+        RobotMotion.move(5);
+        Assertions.assertEquals("Movement is going out of bounds in the NORTH direction. \n"+ "Robot has stopped at floor limit 2", outputStream.toString().trim());
+
+        outputStream.reset();
+        RobotMotion.initializeSystem(3);
+        RobotMotion.setPen(true);
+        RobotMotion.move(2);
+        RobotMotion.turnRight();
+        RobotMotion.move(5);
+        Assertions.assertEquals("Movement is going out of bounds in the EAST direction. \n"+ "Robot has stopped at floor limit 2", outputStream.toString().trim());
+
+        outputStream.reset();
+        RobotMotion.initializeSystem(3);
+        RobotMotion.setPen(true);
+        RobotMotion.turnRight();
+        RobotMotion.turnRight();
+        RobotMotion.move(5);
+        Assertions.assertEquals("Movement is going out of bounds in the SOUTH direction. \n"+ "Robot has stopped at floor limit 0", outputStream.toString().trim());
+
+        outputStream.reset();
+        RobotMotion.initializeSystem(3);
+        RobotMotion.setPen(true);
+        RobotMotion.turnRight();
+        RobotMotion.turnRight();
+        RobotMotion.turnRight();
+        RobotMotion.move(5);
+        Assertions.assertEquals("Movement is going out of bounds in the WEST direction. \n"+ "Robot has stopped at floor limit 0", outputStream.toString().trim());
+    }
+
+
+
 }

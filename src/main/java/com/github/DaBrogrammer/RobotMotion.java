@@ -67,15 +67,8 @@ public class RobotMotion {
                     case 'i' -> {
                         try{
                             int n = Integer.parseInt(commandArgs);
-                            // FOR REGRESSION TESTING, BASED ON QA TEAM'S REMARKS
-                            if(n <= 0) {
-                                System.out.println("Invalid floor size. Please enter an integer larger than 0");
-                            }
-                            else {
-                                initializeSystem(n);
-                                initialized = true;
-                            }
-
+                            initializeSystem(n);
+                            initialized = true;
                         }
                         catch(NumberFormatException e){
                             System.out.println("Invalid arguments for 'i' command! Please enter an integer with the command.");
@@ -160,14 +153,20 @@ public class RobotMotion {
 
     // starting from the bottom left corner and set the pen up
     static void initializeSystem(int n) {
-        floor = new int[n][n];
-        for (int[] row : floor) {
-            Arrays.fill(row, 0);
+        // FOR REGRESSION TESTING, BASED ON QA TEAM'S REMARKS
+        if(n <= 0) {
+            System.out.println("Invalid floor size. Please enter an integer larger than 0");
         }
-        posX = 0;
-        posY = 0;
-        penDown = false;
-        direction = Direction.NORTH;
+        else {
+            floor = new int[n][n];
+            for (int[] row : floor) {
+                Arrays.fill(row, 0);
+            }
+            posX = 0;
+            posY = 0;
+            penDown = false;
+            direction = Direction.NORTH;
+        }
     }
 
 
@@ -254,7 +253,7 @@ public class RobotMotion {
                         }
                         else {
                             int limit = floor.length - 1;
-                            System.out.println("Movement is going out of bounds in the " + direction + " direction. \n"+ "Robot has stopped at floor limit " + limit);
+                            System.out.println("Movement is going out of bounds in the " + direction + " direction. \n"+ "Robot has stopped at floor limit 0");
                             break;
                         }
                     }
@@ -269,7 +268,7 @@ public class RobotMotion {
                         }
                         else {
                             int limit = floor.length - 1;
-                            System.out.println("Movement is going out of bounds in the " + direction + " direction. \n"+ "Robot has stopped at floor limit " + limit);
+                            System.out.println("Movement is going out of bounds in the " + direction + " direction. \n"+ "Robot has stopped at floor limit 0");
                             break;
                         }
                     }
