@@ -67,8 +67,15 @@ public class RobotMotion {
                     case 'i' -> {
                         try{
                             int n = Integer.parseInt(commandArgs);
-                            initializeSystem(n);
-                            initialized = true;
+                            // FOR REGRESSION TESTING, BASED ON QA TEAM'S REMARKS
+                            if(n <= 0) {
+                                System.out.println("Invalid floor size. Please enter an integer larger than 0");
+                            }
+                            else {
+                                initializeSystem(n);
+                                initialized = true;
+                            }
+
                         }
                         catch(NumberFormatException e){
                             System.out.println("Invalid arguments for 'i' command! Please enter an integer with the command.");
@@ -190,53 +197,80 @@ public class RobotMotion {
     }
 
     static void move(int spaces) {
-        // mark the initial position with "*" if pen is down
-        if (penDown) {
-            floor[posX][posY] = 1; // Mark the initial position with "*" if pen is down
+        // FOR REGRESSION TESTING, BASED ON QA TEAM'S REMARKS
+        if (spaces < 0) {
+            System.out.println("Invalid. Must move by a positive integer.");
         }
+        else {
+            // mark the initial position with "*" if pen is down
+            if (penDown) {
+                floor[posX][posY] = 1; // Mark the initial position with "*" if pen is down
+            }
 
-        // move the robot based on the direction
-        switch (direction) {
-            case NORTH -> {
-                // check if the robot is not going out of bounds
-                for (int i = 0; i < spaces; i++) {
-                    // move the robot one space up
-                    if (posY < floor.length - 1) {
-                        // increment the y position
-                        posY++;
-                        // mark the position with "*" if pen is down
-                        if (penDown) {
-                            floor[posX][posY] = 1;
+            // move the robot based on the direction
+            switch (direction) {
+                case NORTH -> {
+                    // check if the robot is not going out of bounds
+                    for (int i = 0; i < spaces; i++) {
+                        // move the robot one space up
+                        if (posY < floor.length - 1) {
+                            // increment the y position
+                            posY++;
+                            // mark the position with "*" if pen is down
+                            if (penDown) {
+                                floor[posX][posY] = 1;
+                            }
+                        }
+                        // FOR REGRESSION TESTING, BASED ON QA TEAM'S REMARKS
+                        else {
+                            int limit = floor.length - 1;
+                            System.out.println("Movement is going out of bounds in the " + direction + " direction. \n"+ "Robot has stopped at floor limit " + limit);
+                            break;
                         }
                     }
                 }
-            }
-            case EAST -> {
-                for (int i = 0; i < spaces; i++) {
-                    if (posX < floor.length - 1) {
-                        posX++;
-                        if (penDown) {
-                            floor[posX][posY] = 1;
+                case EAST -> {
+                    for (int i = 0; i < spaces; i++) {
+                        if (posX < floor.length - 1) {
+                            posX++;
+                            if (penDown) {
+                                floor[posX][posY] = 1;
+                            }
+                        }
+                        else {
+                            int limit = floor.length - 1;
+                            System.out.println("Movement is going out of bounds in the " + direction + " direction. \n"+ "Robot has stopped at floor limit " + limit);
+                            break;
                         }
                     }
                 }
-            }
-            case SOUTH -> {
-                for (int i = 0; i < spaces; i++) {
-                    if (posY > 0) {
-                        posY--;
-                        if (penDown) {
-                            floor[posX][posY] = 1;
+                case SOUTH -> {
+                    for (int i = 0; i < spaces; i++) {
+                        if (posY > 0) {
+                            posY--;
+                            if (penDown) {
+                                floor[posX][posY] = 1;
+                            }
+                        }
+                        else {
+                            int limit = floor.length - 1;
+                            System.out.println("Movement is going out of bounds in the " + direction + " direction. \n"+ "Robot has stopped at floor limit " + limit);
+                            break;
                         }
                     }
                 }
-            }
-            case WEST -> {
-                for (int i = 0; i < spaces; i++) {
-                    if (posX > 0) {
-                        posX--;
-                        if (penDown) {
-                            floor[posX][posY] = 1;
+                case WEST -> {
+                    for (int i = 0; i < spaces; i++) {
+                        if (posX > 0) {
+                            posX--;
+                            if (penDown) {
+                                floor[posX][posY] = 1;
+                            }
+                        }
+                        else {
+                            int limit = floor.length - 1;
+                            System.out.println("Movement is going out of bounds in the " + direction + " direction. \n"+ "Robot has stopped at floor limit " + limit);
+                            break;
                         }
                     }
                 }
